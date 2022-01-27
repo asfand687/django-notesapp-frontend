@@ -8,7 +8,17 @@ const NoteDetail = () => {
 		body: '',
 	})
 	const getNote = async () => {
-		const response = await fetch(`http://localhost:8000/notes/${id}/`)
+		const requestOptions = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Token ${localStorage.getItem('token')}`,
+			},
+		}
+		const response = await fetch(
+			`http://localhost:8000/notes/${id}/`,
+			requestOptions
+		)
 		const data = await response.json()
 		setNote(data)
 	}
@@ -16,7 +26,10 @@ const NoteDetail = () => {
 	const updateNote = async (id) => {
 		const response = await fetch(`http://localhost:8000/notes/${id}/update/`, {
 			method: 'PUT',
-			headers: { 'Content-Type': 'application/json' },
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Token ${localStorage.getItem('token')}`,
+			},
 			body: JSON.stringify(note),
 		})
 		const data = await response.json()

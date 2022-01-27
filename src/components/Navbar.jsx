@@ -1,7 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+	const isAuthenticated = localStorage.getItem('token')
+	const logout = async () => {
+		const requestOptions = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Token ${localStorage.getItem('token')}`,
+			},
+		}
+		const response = await fetch(
+			`http://localhost:8000/api/auth/logout`,
+			requestOptions
+		)
+		if (response.status === 200) {
+			localStorage.removeItem('token')
+			window.location.href = 'http://localhost:3000'
+		}
+	}
 	return (
 		<nav
 			className='navbar is-light'
@@ -27,18 +45,22 @@ const Navbar = () => {
 
 				<div className='navbar-end'>
 					<div className='navbar-item'>
-						<form>
-							<div className='field has-addons'>
-								<div className='control'>
-									<input className='input' type='text' placeholder='Add Todo' />
-								</div>
-								<div className='control'>
-									<button type='submit' className='button is-link'>
-										Submit
-									</button>
-								</div>
-							</div>
-						</form>
+						{isAuthenticated ? (
+							<button onClick={logout} className='button is-warning'>
+								Logout
+							</button>
+						) : (
+							<Link to='/login' className='button is-info'>
+								Login
+							</Link>
+						)}
+					</div>
+					<div className='navbar-item'>
+						{!isAuthenticated && (
+							<Link to='/register' className='button is-primary is-outlined'>
+								Signup
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>

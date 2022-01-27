@@ -7,7 +7,14 @@ function App() {
 	const [newNote, setNewNote] = useState('')
 
 	const getNotes = async () => {
-		const response = await fetch('http://localhost:8000/notes/')
+		const requestOptions = {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Token ${localStorage.getItem('token')}`,
+			},
+		}
+		const response = await fetch('http://localhost:8000/notes/', requestOptions)
 		const data = await response.json()
 		setNotes(data)
 	}
@@ -15,7 +22,10 @@ function App() {
 	const addNote = async () => {
 		const requestOptions = {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Token ${localStorage.getItem('token')}`,
+			},
 			body: JSON.stringify({ body: newNote }),
 		}
 		const response = await fetch(
@@ -32,6 +42,7 @@ function App() {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Token ${localStorage.getItem('token')}`,
 			},
 		})
 		window.location.href = 'http://localhost:3000'
@@ -66,7 +77,7 @@ function App() {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th>Name</th>
+									<th>Note</th>
 									<th></th>
 									<th>Created At</th>
 								</tr>
