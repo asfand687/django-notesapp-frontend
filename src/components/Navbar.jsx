@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Logo from '../assets/logo.svg'
 
 const Navbar = () => {
 	const isAuthenticated = localStorage.getItem('token')
@@ -28,11 +29,7 @@ const Navbar = () => {
 		>
 			<div className='navbar-brand'>
 				<Link className='navbar-item' to='/'>
-					<img
-						src='https://bulma.io/images/bulma-logo.png'
-						width='112'
-						height='28'
-					/>
+					<img src={Logo} />
 				</Link>
 			</div>
 

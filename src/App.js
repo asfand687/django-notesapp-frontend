@@ -1,6 +1,7 @@
 import './App.css'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 function App() {
 	const [notes, setNotes] = useState([])
@@ -52,53 +53,55 @@ function App() {
 		getNotes()
 	}, [])
 	return (
-		<div className='App'>
-			<div className='columns pt-6'>
-				<div className='column'>
-					<h2 className='title is-2'>Add a note</h2>
-					<div className='control'>
-						<input
-							value={newNote}
-							onChange={({ target }) => setNewNote(target.value)}
-							className='input'
-							type='text'
-							placeholder='Normal input'
-							style={{ width: '300px' }}
-						/>
-					</div>
-					<button onClick={addNote} className='button is-primary mt-2'>
-						Add
-					</button>
+		<div className='App has-text-left'>
+			<div className='container mt-6' style={{ width: '660px' }}>
+				<div>
+					<h2 className='title is-size-4'>Add Note</h2>
+					<article className='field has-addons' style={{ width: '660px' }}>
+						<div className='control'>
+							<input
+								value={newNote}
+								onChange={({ target }) => setNewNote(target.value)}
+								className='input'
+								type='text'
+								placeholder='Buy milk...'
+								style={{ width: '600px' }}
+							/>
+						</div>
+						<div className='control'>
+							<button onClick={addNote} className='button is-primary'>
+								Add
+							</button>
+						</div>
+					</article>
 				</div>
-				<div className='column'>
+				<div className='mt-4'>
 					<div>
-						<h2 className='title is-2'>Existing Notes</h2>
-
-						<table className='table'>
+						<h2 className='title is-size-4'>Notes</h2>
+						<table className='table is-stripped is-bordered is-fullwidth'>
 							<thead>
 								<tr>
 									<th>Note</th>
-									<th></th>
-									<th>Created At</th>
+									<th style={{ width: '200px' }}>Created At</th>
+									<th style={{ width: '100px' }}>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
 								{notes.map((note) => (
 									<tr key={note.id}>
 										<td>{note.body}</td>
-										<td></td>
-										<td>{note.created}</td>
-										<td>
-											<button
+										<td>{dayjs(note.created).format('DD MMMM YYYY')}</td>
+										<td className='is-flex is-justify-content-center'>
+											<div
+												className='mr-4'
 												onClick={() => deleteNote(note.id)}
-												className='button is-danger'
+												style={{ cursor: 'pointer' }}
 											>
-												Delete
-											</button>
-										</td>
-										<td>
-											<Link className='button is-info' to={`/note/${note.id}`}>
-												Update
+												<i class='fas fa-trash-alt'></i>
+											</div>
+
+											<Link className='' to={`/note/${note.id}`}>
+												<i class='fas fa-edit'></i>
 											</Link>
 										</td>
 									</tr>
