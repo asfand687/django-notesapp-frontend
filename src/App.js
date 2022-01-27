@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 function App() {
 	const [notes, setNotes] = useState([])
 	const [newNote, setNewNote] = useState('')
+	const [readMore, setReadMore] = useState(true)
 
 	const getNotes = async () => {
 		const requestOptions = {
@@ -89,20 +90,32 @@ function App() {
 							<tbody>
 								{notes.map((note) => (
 									<tr key={note.id}>
-										<td>{note.body}</td>
+										<td>
+											{readMore ? note.body.slice(0, 35) : note.body}
+											{note.body.length > 35 && (
+												<span
+													style={{ cursor: 'pointer', color: 'blue' }}
+													onClick={() => setReadMore(!readMore)}
+												>
+													{readMore ? ' ...readmore' : ' ...showless'}
+												</span>
+											)}
+										</td>
 										<td>{dayjs(note.created).format('DD MMMM YYYY')}</td>
-										<td className='is-flex is-justify-content-center'>
-											<div
-												className='mr-4'
-												onClick={() => deleteNote(note.id)}
-												style={{ cursor: 'pointer' }}
-											>
-												<i class='fas fa-trash-alt'></i>
-											</div>
+										<td>
+											<div className='is-flex is-justify-content-center'>
+												<div
+													className='mr-4'
+													onClick={() => deleteNote(note.id)}
+													style={{ cursor: 'pointer' }}
+												>
+													<i className='fas fa-trash-alt'></i>
+												</div>
 
-											<Link className='' to={`/note/${note.id}`}>
-												<i class='fas fa-edit'></i>
-											</Link>
+												<Link className='' to={`/note/${note.id}`}>
+													<i className='fas fa-edit'></i>
+												</Link>
+											</div>
 										</td>
 									</tr>
 								))}

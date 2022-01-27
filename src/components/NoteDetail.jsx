@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 const NoteDetail = () => {
 	const { id } = useParams()
@@ -7,6 +7,7 @@ const NoteDetail = () => {
 	const [note, setNote] = useState({
 		body: '',
 	})
+
 	const getNote = async () => {
 		const requestOptions = {
 			method: 'GET',
@@ -65,7 +66,7 @@ const NoteDetail = () => {
 								</span>
 							</div>
 						</div>
-						<div class='field'>
+						<div class='field is-grouped'>
 							<div class='control'>
 								<button
 									onClick={() => updateNote(note.id)}
@@ -73,6 +74,11 @@ const NoteDetail = () => {
 								>
 									Update
 								</button>
+							</div>
+							<div class='control'>
+								<Link to='/' className='button is-danger mt-2'>
+									Cancel
+								</Link>
 							</div>
 						</div>
 					</div>
